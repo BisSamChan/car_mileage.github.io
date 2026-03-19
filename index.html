@@ -27,8 +27,21 @@
         <option value="南港92">南港92</option>
         </select>
         
-        <label>2. 訓練日期時間</label>
-        <input type="datetime-local" name="date_time">
+        <label>2. 訓練日期</label>
+        <input type="date" name="training_date">
+
+        <!-- 開始與結束時間並排 -->
+        <div style="display: flex; gap: 10px;">
+        <div style="flex: 1;">
+        <label>開始時間</label>
+        <input type="time" name="start_time">
+        </div>
+        <div style="flex: 1;">
+        <label>結束時間</label>
+        <input type="time" name="end_time">
+        </div>
+        </div>
+        
         
         <label>3. 地點</label>
         <input type="text" id="location" name="location" placeholder="訓練地點">
@@ -50,7 +63,7 @@
 
    <script>
     // 你的 Google Apps Script 網址
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbx1HXloKj10aM9LkayHWXw8Xsw77nzY0AwATa2PO9DMqksI2z1Li9mmJF3Rk0LeQlrN3w/exec";
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbzldeX_pDpEKXBPDh5b7qD609PJMYbXUdik_lGskD4fvaRGtoBxTjiJp1NjrCS05e4CIg/exec";
 
     // --- 功能 A：選擇車輛後自動抓取里程 ---
     async function fetchSheetData() {
@@ -83,14 +96,16 @@
         submitBtn.disabled = true;
 
         // 收集表單內所有資料
-        const formData = {
-            type: document.getElementById('carSelect').value,
-            date_time: document.getElementsByName('date_time')[0].value,
-            location: document.getElementsByName('location')[0].value, // 確保 HTML 中地點的 name="location"
-            star_mileage: document.getElementById('startMileage').value,
-            end_mileage: document.getElementsByName('end_mileage')[0].value,
-            driver_name: document.getElementsByName('driver_name')[0].value
-        };
+       const formData = {
+       type: document.getElementById('carSelect').value,
+       training_date: document.getElementsByName('training_date')[0].value, // 新增日期
+       start_time: document.getElementsByName('start_time')[0].value,       // 新增開始時間
+       end_time: document.getElementsByName('end_time')[0].value,           // 新增結束時間
+       location: document.getElementById('location').value,
+       star_mileage: document.getElementById('startMileage').value,
+       end_mileage: document.getElementsByName('end_mileage')[0].value,
+       driver_name: document.getElementsByName('driver_name')[0].value
+};
 
         try {
             // 使用 POST 發送資料
