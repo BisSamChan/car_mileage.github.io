@@ -18,7 +18,7 @@
 
 <div class="container">
     <div class="header">⏲️救助訓車輛里程</div>
-    <form action="https://formspree.io" method="POST" class="form-group">
+    <form  id="mileageForm" class="form-group">
         
         <label>1. 車輛</label>
         <select name="type" id="carSelect" onchange="fetchSheetData()">
@@ -31,7 +31,7 @@
         <input type="datetime-local" name="date_time">
         
         <label>3. 地點</label>
-        <input type="text" name="" placeholder="訓練地點">
+        <input type="text" id="location" name="location" placeholder="訓練地點">
        
         <label>4. 起始里程</label>
        <input type="text" name="star_mileage" id="startMileage" placeholder="自動抓取中...">
@@ -48,33 +48,69 @@
     </form>
 </div>
 
-    <script>
-async function fetchSheetData() {
-    const carName = document.getElementById('carSelect').value;
-    const startInput = document.getElementById('startMileage');
+   <script>
+    // 你的 Google Apps Script 網址
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbx1HXloKj10aM9LkayHWXw8Xsw77nzY0AwATa2PO9DMqksI2z1Li9mmJF3Rk0LeQlrN3w/exec";
 
-    if (!carName) return;
+    // --- 功能 A：選擇車輛後自動抓取里程 ---
+    async function fetchSheetData() {
+        const carName = document.getElementById('carSelect').value;
+        const startInput = document.getElementById('startMileage');
 
-    // 顯示讀取中狀態
-    startInput.placeholder = "載入中...";
-    startInput.value = "";
+        if (!carName) return;
 
-    // 【重要】請將下方網址替換成你在 Google Apps Script 部署得到的「網頁應用程式網址」
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbxqqjNsFCgFtptMh_kAONl1JGdTyXj4TQhsb4tq0X_0yKMaIH9cb3vFncY2xLXkn1xQCA/exec";
+        startInput.placeholder = "載入中...";
+        startInput.value = "";
 
-    try {
-        const response = await fetch(`${scriptUrl}?name=${encodeURIComponent(carName)}`);
-        const data = await response.json();
-
-        if (data.lastMileage) {
-            // 自動將 Sheet 的「結束里程」填入 HTML 的「起始里程」
-            startInput.value = data.lastMileage;
+        try {
+            const response = await fetch(`${scriptUrl}?name=${encodeURIComponent(carName)}`);
+            const data = await response.json();
+            if (data.lastMileage) {
+                startInput.value = data.lastMileage;
+            }
+        } catch (error) {
+            console.error("抓取失敗:", error);
+            startInput.placeholder = "抓取失敗，請手動輸入";
         }
-    } catch (error) {
-        console.error("抓取資料失敗:", error);
-        startInput.placeholder = "抓取失敗，請手動輸入";
     }
-}
+
+    // --- 功能 B：按下「確定送出」後寫入 Google Sheet ---
+    document.getElementById('mileageForm').addEventListener('submit', async function(e) {
+        e.preventDefault(); // 阻止表單跳轉
+
+        const submitBtn = e.target.querySelector('button');
+        submitBtn.innerText = "傳送中...";
+        submitBtn.disabled = true;
+
+        // 收集表單內所有資料
+        const formData = {
+            type: document.getElementById('carSelect').value,
+            date_time: document.getElementsByName('date_time')[0].value,
+            location: document.getElementsByName('location')[0].value, // 確保 HTML 中地點的 name="location"
+            star_mileage: document.getElementById('startMileage').value,
+            end_mileage: document.getElementsByName('end_mileage')[0].value,
+            driver_name: document.getElementsByName('driver_name')[0].value
+        };
+
+        try {
+            // 使用 POST 發送資料
+            await fetch(scriptUrl, {
+                method: 'POST',
+                mode: 'no-cors', // 避開瀏覽器跨網域限制
+                cache: 'no-cache',
+                body: JSON.stringify(formData)
+            });
+
+            alert("✅ 資料已成功上傳至 Google Sheet！");
+            location.reload(); // 成功後重新整理頁面，清空欄位
+        } catch (error) {
+            console.error("送出失敗:", error);
+            alert("❌ 送出失敗，請確認網路或腳本設定");
+        } finally {
+            submitBtn.innerText = "確定送出 ＞";
+            submitBtn.disabled = false;
+        }
+    });
 </script>
     
 </body>
