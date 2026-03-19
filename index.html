@@ -1,10 +1,45 @@
-<h1>Hello World!</h1>
+<<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>訓練安全檢核系統</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; }
+        .container { max-width: 500px; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .header { background-color: #c62828; color: white; padding: 15px; text-align: center; font-weight: bold; }
+        .form-group { padding: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; color: #333; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        button { width: 100%; background-color: #c62828; color: white; padding: 15px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-top: 10px; }
+    </style>
+</head>
+<body>
 
-<h2>Hello World!</h2>
+<div class="container">
+    <div class="header">🛡️ 訓練安全檢核系統</div>
+    <form action="https://formspree.io" method="POST" class="form-group">
+        
+        <label>1. 檢核表種類</label>
+        <select name="type">
+            <option>通用課程檢核表</option>
+        </select>
 
-<h3>Hello World!</h3>
+        <label>2. 訓練名稱/期別</label>
+        <input type="text" name="training_name" placeholder="例如：空氣呼吸器訓練">
 
-<label>
-  <input type="checkbox" name="interest" value="coding">
-  Coding
-</label>
+        <label>3. 訓練日期時間</label>
+        <input type="datetime-local" name="date_time">
+
+        <label>4. 訓練地點</label>
+        <input type="text" name="location" value="內湖訓練中心">
+
+        <label>5. 存檔接收 Email</label>
+        <input type="email" name="email" placeholder="請輸入歸檔信箱">
+
+        <button type="submit">填寫檢核表 ＞</button>
+    </form>
+</div>
+
+</body>
+</html>
