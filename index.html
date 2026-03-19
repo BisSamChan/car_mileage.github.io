@@ -60,7 +60,7 @@ async function fetchSheetData() {
     startInput.value = "";
 
     // 【重要】請將下方網址替換成你在 Google Apps Script 部署得到的「網頁應用程式網址」
-    const scriptUrl = "你的_GOOGLE_APPS_SCRIPT_部署網址";
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbxqqjNsFCgFtptMh_kAONl1JGdTyXj4TQhsb4tq0X_0yKMaIH9cb3vFncY2xLXkn1xQCA/exec";
 
     try {
         const response = await fetch(`${scriptUrl}?name=${encodeURIComponent(carName)}`);
