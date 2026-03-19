@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>訓練安全檢核系統</title>
+    <title>救助37期車輛里程</title>
     <style>
         body { font-family: sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; }
         .container { max-width: 500px; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
@@ -17,27 +17,33 @@
 <body>
 
 <div class="container">
-    <div class="header">🛡️ 訓練安全檢核系統</div>
+    <div class="header">⏲️救助訓車輛里程</div>
     <form action="https://formspree.io" method="POST" class="form-group">
         
-        <label>1. 檢核表種類</label>
+        <label>1. 車輛</label>
         <select name="type">
-            <option>通用課程檢核表</option>
+            <option>福安巴</option>
+            <option>南港92</option>
         </select>
-
-        <label>2. 訓練名稱/期別</label>
-        <input type="text" name="training_name" placeholder="例如：空氣呼吸器訓練">
-
-        <label>3. 訓練日期時間</label>
+        
+        <label>2. 訓練日期時間</label>
         <input type="datetime-local" name="date_time">
+        
+        <label>3. 地點</label>
+        <input type="text" name="" placeholder="訓練地點">
+       
+        <label>4. 起始里程</label>
+        <input type="text" name="star_mileage" placeholder="填數字_別亂填">
 
-        <label>4. 訓練地點</label>
-        <input type="text" name="location" value="內湖訓練中心">
+        <label>5. 結束里程</label>
+        <input type="text" name="end_mileage" placeholder="填數字_別亂填">
 
-        <label>5. 存檔接收 Email</label>
-        <input type="email" name="email" placeholder="請輸入歸檔信箱">
+        <label>6. 駕駛人</label>
+        <input type="text" name="driver_name" placeholder="台9線車神">
 
         <button type="submit">填寫檢核表 ＞</button>
+
+        
     </form>
 </div>
 
